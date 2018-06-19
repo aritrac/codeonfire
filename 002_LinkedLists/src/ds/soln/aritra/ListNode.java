@@ -6,8 +6,8 @@ package ds.soln.aritra;
  * Description: This class defines a Linked List node
  */
 public class ListNode {
-	private int data;
-	private ListNode next;
+	public int data;
+	public ListNode next;
 	
 	public ListNode(int data) {
 		this.data = data;
