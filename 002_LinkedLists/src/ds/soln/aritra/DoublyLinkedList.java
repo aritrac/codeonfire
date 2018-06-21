@@ -11,6 +11,7 @@ package ds.soln.aritra;
  * 5)Add a new value to the list at a given position
  * 6)Add a new value to the rear of the list
  * 7)Remove the value at a given position
+ * 8)Remove a node matching the specified node from the list
  */
 
 public class DoublyLinkedList {
@@ -148,6 +149,27 @@ public class DoublyLinkedList {
 		}
 		//reduce the length of the list
 		length -= 1;
+	}
+	
+	//Remove a node matching the specified node from the list
+	//Use equals() instead of == to test for a matched node
+	public synchronized void removeMatched(DLLNode node) {
+		if(head == null)
+			return;
+		if(node.equals(head)) {
+			head = head.getNext();
+			if(head == null)
+				tail = null;
+			return;
+		}
+		DLLNode p = head;
+		while(p != null) {
+			if(node.equals(p)) {
+				p.getPrev().setNext(p.getNext());
+				p.getNext().setPrev(p.getPrev());
+				return;
+			}
+		}
 	}
 	
 	
