@@ -12,6 +12,10 @@ package ds.soln.aritra;
  * 6)Add a new value to the rear of the list
  * 7)Remove the value at a given position
  * 8)Remove a node matching the specified node from the list
+ * 9)Remove the head value from the list. If the list is empty, do nothing.
+ * 10)Remove the tail value from the list. If the list is empty do nothing.
+ * 11)Return a string representation of this collection, in the form ["str1","str2",...]
+ * 12)Remove everything from the DLL
  */
 
 public class DoublyLinkedList {
@@ -172,5 +176,46 @@ public class DoublyLinkedList {
 		}
 	}
 	
+	//Remove the head value from the list. If the list is empty, do nothing.
+	public int removeHead() {
+		if(length == 0)
+			return Integer.MIN_VALUE;
+		DLLNode save = head.getNext();
+		head.setNext(save.getNext());
+		save.getNext().setPrev(head);
+		length -= 1;
+		return save.getData();
+	}
 	
+	//Remove the tail value from the list. If the list is empty, do nothing
+	public int removeTail() {
+		if(length == 0)
+			return Integer.MIN_VALUE;
+		DLLNode save = tail.getPrev();
+		tail.setPrev(save.getPrev());
+		save.getPrev().setNext(tail);
+		length -= 1;
+		return save.getData();
+	}
+	
+	//Return a string representation of this collection, in the form ["str1","str2",...]
+	public String toString() {
+		String result = "[]";
+		if(length == 0)
+			return result;
+		result = "[" + head.getNext().getData();
+		DLLNode temp = head.getNext().getNext();
+		while(temp != tail) {
+			result += "," + temp.getData();
+			temp = temp.getNext();
+		}
+		return result + "]";
+	}
+	
+	//Remove everything from the DLL.
+	public void clearList() {
+		head = null;
+		tail = null;
+		length = 0;
+	}
 }
