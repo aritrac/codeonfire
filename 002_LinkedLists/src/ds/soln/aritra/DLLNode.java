@@ -3,7 +3,7 @@ package ds.soln.aritra;
 /*
  * Author:Aritra Chatterjee
  * Date: 21/06/2018
- * Description: This class represents a doubly linked list node which be used when we create a double linked list
+ * Description: This class represents a doubly linked list node which be used when we create a double linked list.
  */
 public class DLLNode {
 	private int data;
