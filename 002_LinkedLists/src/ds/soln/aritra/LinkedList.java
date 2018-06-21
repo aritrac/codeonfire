@@ -8,6 +8,14 @@ package ds.soln.aritra;
  * 2)Insert a node at the beginning of the list
  * 3)Insert a node at the end of the list
  * 4)Insert a node at a given position of the list
+ * 5)Remove and return the node at the head of the list
+ * 6)Remove and return the node at the end of the list
+ * 7)Remove a node matching the specified node from the list
+ * 8)Remove the value at a given position
+ * 9)Return a string representation of this collection, in the form ["str1","str2",...]
+ * 10)Return the current length of the list
+ * 11)Find the position of the first value that is equal to a given value
+ * 12)Remove everything from the list
  */
 public class LinkedList {
 	//This is the only field of the class. It holds the head of the list
