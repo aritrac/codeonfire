@@ -73,8 +73,6 @@ public class UnrolledLinkedList<E> extends AbstractList<E> implements List<E> ,S
 	
 	//Removes the first occurrence of the specified element from this list.
 	public boolean remove(Object o) {
-		@SuppressWarnings("unused")
-		int index = 0;
 		ListNode node = firstNode;
 		if(o == null) {
 			while(node != null) {
@@ -84,7 +82,6 @@ public class UnrolledLinkedList<E> extends AbstractList<E> implements List<E> ,S
 						return true;
 					}
 				}
-				index += node.numElements;
 				node = node.next;
 			}
 		}else {
@@ -95,7 +92,6 @@ public class UnrolledLinkedList<E> extends AbstractList<E> implements List<E> ,S
 						return true;
 					}
 				}
-				index += node.numElements;
 				node = node.next;
 			}
 		}
@@ -129,20 +125,20 @@ public class UnrolledLinkedList<E> extends AbstractList<E> implements List<E> ,S
 		}
 		ListNode node;
 		int p = 0;
-		if(size - index > index) {
+		if(size - index > index) { //Finding out where the index lies closer to. Is it the firstNode or the lastNode
 			node = firstNode;
-			while(p <= index - node.numElements) {
+			while(p <= index - node.numElements) {//Finding out which block the index lies in starting from front
 				p += node.numElements;
 				node = node.next;
 			}
 		}else {
 			node = lastNode;
 			p = size;
-			while((p -= node.numElements) > index) {
+			while((p -= node.numElements) > index) { //Finding out which block the index lies in starting from back
 				node = node.previous;
 			}
 		}
-		return (E)node.elements[index - p];
+		return (E)node.elements[index - p]; //Returns the specific element within the block
 	}
 	
 	//Replaces the element at the specified position in this list with the specified element.
@@ -154,6 +150,7 @@ public class UnrolledLinkedList<E> extends AbstractList<E> implements List<E> ,S
 		E el = null;
 		ListNode node;
 		int p = 0;
+		//Same logic as above to get to the specific element
 		if(size - index > index) {
 			node = firstNode;
 			while(p <= index - node.numElements) {
@@ -167,6 +164,7 @@ public class UnrolledLinkedList<E> extends AbstractList<E> implements List<E> ,S
 				node = node.previous;
 			}
 		}
+		//Simple node value replacement logic
 		el = (E) node.elements[index - p];
 		node.elements[index - p] = element;
 		return el;
@@ -181,6 +179,7 @@ public class UnrolledLinkedList<E> extends AbstractList<E> implements List<E> ,S
 		}
 		ListNode node;
 		int p = 0;
+		//Same logic as above to find the specified element in a block
 		if(size - index > index) {
 			node = firstNode;
 			while(p <= index - node.numElements) {
@@ -194,6 +193,7 @@ public class UnrolledLinkedList<E> extends AbstractList<E> implements List<E> ,S
 				node = node.previous;
 			}
 		}
+		//Calls this to do the insert and right adjust the entire ULL and sends the location within the node where the insertion should happen.
 		insertIntoNode(node, index - p, element);
 	}
 	
@@ -207,6 +207,7 @@ public class UnrolledLinkedList<E> extends AbstractList<E> implements List<E> ,S
 		E element = null;
 		ListNode node;
 		int p = 0;
+		//Same logic as above to get to the specified index
 		if(size - index > index) {
 			node = firstNode;
 			while(p <= index - node.numElements) {
@@ -220,12 +221,87 @@ public class UnrolledLinkedList<E> extends AbstractList<E> implements List<E> ,S
 				node = node.previous;
 			}
 		}
-		element = (E)node.elements[index - p];
+		element = (E)node.elements[index - p]; //Storing the element which will be removed for returning
+		//Calls this to remove the index within the block and also left adjust the entire ULL
 		removeFromNode(node, index - p);
 		return element;
 	}
 	
-	private static final long serialVersionUID = -674052309103045211L;
+	private void insertIntoNode(ListNode node, int ptr, E element) {
+		//if the node is full
+		if(node.numElements == nodeCapacity) {
+			//create a new node
+			ListNode newNode = new ListNode();
+			//move half of the elements to the new node
+			int elementsToMove = nodeCapacity / 2;
+			int startIndex = nodeCapacity - elementsToMove;
+			for(int i = 0; i < elementsToMove; i++) {
+				newNode.elements[i] = node.elements[startIndex + i];
+				node.elements[startIndex + i] = null;
+			}
+			node.numElements -= elementsToMove;
+			newNode.numElements = elementsToMove;
+			//insert the new node into the list
+			newNode.next = node.next;
+			newNode.previous = node;
+			if(node.next != null) {
+				node.next.previous = newNode;
+			}
+			node.next = newNode;
+			if(node == lastNode) {
+				lastNode = newNode;
+			}
+			//check whether the element should be inserted into
+			//the original node or into the new node
+			if(ptr > node.numElements) {
+				node = newNode;
+				ptr -= node.numElements;
+			}
+		}
+		for(int i = node.numElements; i > ptr; i--) {
+			node.elements[i] = node.elements[i - 1];
+		}
+		node.elements[ptr] = element;
+		node.numElements++;
+		size++;
+		modCount++;
+	}
+	
+	private void removeFromNode(ListNode node, int ptr) {
+		node.numElements--;
+		for(int i = ptr; i < node.numElements; i++) { //Left shift all the elements right to the deleted element to take up its space
+			node.elements[i] = node.elements[i + 1];
+		}
+		node.elements[node.numElements] = null;
+		if(node.next != null && node.next.numElements + node.numElements <= nodeCapacity) {
+			mergeWithNextNode(node);
+		}else if(node.previous != null && node.previous.numElements + node.numElements <= nodeCapacity) {
+			mergeWithNextNode(node.previous);
+		}
+		size--;
+		modCount++;
+	}
+	
+	//This method does merge the specified node with the next node
+	private void mergeWithNextNode(ListNode node) {
+		ListNode next = node.next;
+		for(int i = 0; i < next.numElements; i++) {
+			node.elements[node.numElements + i] = next.elements[i];
+			next.elements[i] = null;
+		}
+		node.numElements += next.numElements;
+		if(next.next != null) { //Deleting the next node which becomes empty after the merge is done
+			next.next.previous = node;
+		}
+		node.next = next.next.next;
+		if(next == lastNode) {
+			lastNode = node;
+		}
+	}
+	
+	private static final long serialVersionUID = -674052309103045211L; //For serializing purpose
+	
+	/***********START OF THE BLOCK CLASS************/
 	private class ListNode{
 		ListNode next;
 		ListNode previous;
@@ -235,6 +311,9 @@ public class UnrolledLinkedList<E> extends AbstractList<E> implements List<E> ,S
 			elements = new Object[nodeCapacity];
 		}
 	}
+	/***********END OF THE BLOCK CLASS************/
+	
+	/************START OF THE CUSTOM ITERATOR*****************/
 	
 	private class ULLIterator implements ListIterator<E>{
 		ListNode currentNode;
@@ -318,75 +397,5 @@ public class UnrolledLinkedList<E> extends AbstractList<E> implements List<E> ,S
 		}
 	}
 	
-	private void insertIntoNode(ListNode node, int ptr, E element) {
-		//if the node is full
-		if(node.numElements == nodeCapacity) {
-			//create a new node
-			ListNode newNode = new ListNode();
-			//move half of the elements to the new node
-			int elementsToMove = nodeCapacity / 2;
-			int startIndex = nodeCapacity - elementsToMove;
-			for(int i = 0; i < elementsToMove; i++) {
-				newNode.elements[i] = node.elements[startIndex + i];
-				node.elements[startIndex + i] = null;
-			}
-			node.numElements -= elementsToMove;
-			newNode.numElements = elementsToMove;
-			//insert the new node into the list
-			newNode.next = node.next;
-			newNode.previous = node;
-			if(node.next != null) {
-				node.next.previous = newNode;
-			}
-			node.next = newNode;
-			if(node == lastNode) {
-				lastNode = newNode;
-			}
-			//check whether the element should be inserted into
-			//the original node or into the new node
-			if(ptr > node.numElements) {
-				node = newNode;
-				ptr -= node.numElements;
-			}
-		}
-		for(int i = node.numElements; i > ptr; i--) {
-			node.elements[i] = node.elements[i - 1];
-		}
-		node.elements[ptr] = element;
-		node.numElements++;
-		size++;
-		modCount++;
-	}
-	
-	private void removeFromNode(ListNode node, int ptr) {
-		node.numElements--;
-		for(int i = ptr; i < node.numElements; i++) {
-			node.elements[i] = node.elements[i + 1];
-		}
-		node.elements[node.numElements] = null;
-		if(node.next != null && node.next.numElements + node.numElements <= nodeCapacity) {
-			mergeWithNextNode(node);
-		}else if(node.previous != null && node.previous.numElements + node.numElements <= nodeCapacity) {
-			mergeWithNextNode(node.previous);
-		}
-		size--;
-		modCount++;
-	}
-	
-	//This method does merge the specified node with the next node
-	private void mergeWithNextNode(ListNode node) {
-		ListNode next = node.next;
-		for(int i = 0; i < next.numElements; i++) {
-			node.elements[node.numElements + i] = next.elements[i];
-			next.elements[i] = null;
-		}
-		node.numElements += next.numElements;
-		if(next.next != null) {
-			next.next.previous = node;
-		}
-		node.next = next.next.next;
-		if(next == lastNode) {
-			lastNode = node;
-		}
-	}
+	/************END OF THE CUSTOM ITERATOR*************/
 }
