@@ -49,14 +49,17 @@ class SkipList<T extends Comparable<T>, U> {
 	}
 
 	public void add(T key, U value) {
-		long level = level();
+		long level = level();//Randomly we are determining the level
 		if (level > head.level) {
 			head = new Node(null, null, level, null, head);
 		}
 		Node cur = head;
 		Node last = null;
 		while (cur != null) {
-			if (cur.next == null || cur.next.key.compareTo(key) > 0) {
+			if (cur.next == null || cur.next.key.compareTo(key) > 0) {//Going through the head pointers of each level starting with the highest. If the key of the first node
+				   //of the head is greater than the key to be found, we go to the head of the next lower level.
+				   //We do this for each level progressively until the head pointer becomes null, hence we have traversed each
+				   //level.
 				if (level >= cur.level) {
 					Node n = new Node(key, value, cur.level, cur.next, null);
 					if (last != null) {
@@ -84,8 +87,11 @@ class SkipList<T extends Comparable<T>, U> {
 		U value = null;
 		Node cur = head;
 		while (cur != null) {
-			if (cur.next == null || cur.next.key.compareTo(key) >= 0) {
-				if (cur.next != null && cur.next.key.equals(key)) {
+			if (cur.next == null || cur.next.key.compareTo(key) >= 0) {//Going through the head pointers of each level starting with the highest. If the key of the first node
+				   //of the head is greater than the key to be found, we go to the head of the next lower level.
+				   //We do this for each level progressively until the head pointer becomes null, hence we have traversed each
+				   //level.
+				if (cur.next != null && cur.next.key.equals(key)) { //Once we found the key,we delete it
 					value = cur.next.value;
 					cur.next = cur.next.next;
 				}
@@ -101,7 +107,10 @@ class SkipList<T extends Comparable<T>, U> {
 	public U get(T key) {
 		Node cur = head;
 		while (cur != null) {
-			if (cur.next == null || cur.next.key.compareTo(key) > 0) {
+			if (cur.next == null || cur.next.key.compareTo(key) > 0) { //Going through the head pointers of each level starting with the highest. If the key of the first node
+				   //of the head is greater than the key to be found, we go to the head of the next lower level.
+				   //We do this for each level progressively until the head pointer becomes null, hence we have traversed each
+				   //level.
 				cur = cur.down;
 				continue;
 			} else if (cur.next.key.equals(key)) {
