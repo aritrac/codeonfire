@@ -4,6 +4,8 @@ package ds.soln.aritra;
  * Author: Aritra Chatterjee
  * Date: 25/06/2018
  * Description: This implementation shows how to print the Nth node from the end of the linked list
+ * This is a simple approach in which we traverse the list to get the length of the list, then subtract the value of N from it
+ * and then from the start traverse Length - N nodes to arrive at the required node
  */
 
 public class FindNthNodeFromTheEndBruteForce {
