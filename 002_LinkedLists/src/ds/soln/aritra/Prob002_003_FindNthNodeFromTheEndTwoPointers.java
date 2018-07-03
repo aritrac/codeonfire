@@ -1,5 +1,7 @@
 package ds.soln.aritra;
 
+import ds.soln.aritra.utilities.ListNode;
+
 /*
  * Author: Aritra Chatterjee
  * Date: 3rd July 2018
@@ -10,7 +12,7 @@ package ds.soln.aritra;
  * to the Nth node from the last.
  */
 
-public class FindNthNodeFromTheEndTwoPointers {
+public class Prob002_003_FindNthNodeFromTheEndTwoPointers {
 	public static void main(String[] args) {
 		LinkedList ll = new LinkedList();
 		ll.insertAtEnd(new ListNode(4));

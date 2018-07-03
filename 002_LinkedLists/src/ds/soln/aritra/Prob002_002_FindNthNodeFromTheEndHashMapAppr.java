@@ -3,6 +3,8 @@ package ds.soln.aritra;
 import java.util.HashMap;
 import java.util.Map;
 
+import ds.soln.aritra.utilities.ListNode;
+
 /*
  * Author: Aritra Chatterjee
  * Date: 27/06/2018
@@ -12,7 +14,7 @@ import java.util.Map;
  * After that we will find the Length - N key to get the address of the Node and then return the data in that node
  */
 
-public class FindNthNodeFromTheEndHashMapAppr {
+public class Prob002_002_FindNthNodeFromTheEndHashMapAppr {
 	public static void main(String[] args) {
 		LinkedList ll = new LinkedList();
 		HashMap<Integer, ListNode> nodeMap = new HashMap<Integer, ListNode>();

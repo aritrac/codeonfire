@@ -1,5 +1,7 @@
 package ds.soln.aritra;
 
+import ds.soln.aritra.utilities.ListNode;
+
 /*
  * Author: Aritra Chatterjee
  * Date: 3rd July 2018
@@ -8,7 +10,7 @@ package ds.soln.aritra;
  * print out the Nth element from the last
  */
 
-public class FindNthNodeFromTheEndUsingRecursion {
+public class Prob002_004_FindNthNodeFromTheEndUsingRecursion {
 	
 	private static int n = 0;
 	

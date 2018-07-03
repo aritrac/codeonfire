@@ -1,5 +1,7 @@
 package ds.soln.aritra;
 
+import ds.soln.aritra.utilities.ListNode;
+
 /*
  * Author: Aritra Chatterjee
  * Date: 25/06/2018
@@ -8,7 +10,7 @@ package ds.soln.aritra;
  * and then from the start traverse Length - N nodes to arrive at the required node
  */
 
-public class FindNthNodeFromTheEndBruteForce {
+public class Prob002_001_FindNthNodeFromTheEndBruteForce {
 	public static void main(String[] args) {
 		LinkedList ll = new LinkedList();
 		

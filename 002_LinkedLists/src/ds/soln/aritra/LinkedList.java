@@ -1,5 +1,7 @@
 package ds.soln.aritra;
 
+import ds.soln.aritra.utilities.ListNode;
+
 /*
  * Author: Aritra Chatterjee
  * Date: 18/06/2018

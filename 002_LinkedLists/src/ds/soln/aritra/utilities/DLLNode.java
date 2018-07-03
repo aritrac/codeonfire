@@ -1,4 +1,4 @@
-package ds.soln.aritra;
+package ds.soln.aritra.utilities;
 
 /*
  * Author:Aritra Chatterjee
