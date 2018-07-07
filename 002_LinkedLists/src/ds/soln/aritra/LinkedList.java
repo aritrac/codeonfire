@@ -106,6 +106,17 @@ public class LinkedList {
 		head = prev; //post reversal, the head will be at the other end, setting head to current at the end of loop will make it null, hence assigning only prev value to it
 	}
 	
+	//Recursive reversal of a linked list
+	public void reverseRecursive(ListNode prev, ListNode current) {
+		if(current == null) {
+			head = prev; //As this is the final step, setting the head to the other end
+			return;
+		}
+		ListNode next = current.getNext(); //storing the current node in next
+		current.setNext(prev); //making current point to the previous node
+		reverseRecursive(current,next); //making prev = current and current = next for the next recursive call
+	}
+	
 	//Remove and return the node at the head of the list
 	public synchronized ListNode removeFromBegin() {
 		ListNode node = head;
