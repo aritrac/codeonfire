@@ -54,8 +54,8 @@ public class LinkedList {
 			ListNode p,q;
 			for(p = head; (q = p.getNext()) != null; p = q);
 			p.setNext(node);
-			length++;
 		}
+		length++;
 	}
 	
 	//Add a new value to the list at a given position
