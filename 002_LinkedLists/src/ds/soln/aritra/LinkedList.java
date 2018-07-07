@@ -212,7 +212,13 @@ public class LinkedList {
 	
 	//Return the current length of the list
 	public int length() {
-		return length;
+		ListNode temp = getHead();
+		int nodeCount = 0;
+		while(temp != null) {
+			nodeCount++;
+			temp = temp.getNext();
+		}
+		return nodeCount;
 	}
 	
 	//Find the position of the first value that is equal to a given value
