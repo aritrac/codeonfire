@@ -201,6 +201,30 @@ public class LinkedList {
 		return Integer.MAX_VALUE;
 	}
 	
+	//This method inserts element into a sorted linked list
+	public boolean insertBySortOrder(int element){
+		ListNode temp = head;
+		ListNode current = head;
+		
+		while(current != null && current.data < element) {
+			temp = current; //stores the node previous to current in each iteration
+			current = current.getNext();
+		}
+		
+		
+		ListNode newNode = new ListNode(element);
+		
+		if(current == head) { // If node was inserted before the head of the list
+			newNode.setNext(current); //making the first newly added node to point to the previous first node
+			head = newNode; //Changing the head to point to the newly added node
+		}else {
+			temp.setNext(newNode);
+			newNode.setNext(current);
+		}
+		
+		return true;
+	}
+	
 	//Remove everything from the list
 	public void clearList() {
 		head = null;
