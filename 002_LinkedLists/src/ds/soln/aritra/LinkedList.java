@@ -88,6 +88,24 @@ public class LinkedList {
 		//The list is now one value longer
 		length += 1;
 	}
+	
+	//Iteratively reverse a linked list
+	public void reverseIterative() {
+		ListNode current = head; //storing the head in a temporary value
+		ListNode prev = null;
+		
+		while(current != null) {
+			ListNode next = current.getNext(); //Saving the next node
+			//make current point to the previous node as we are reversing it
+			current.setNext(prev);
+			//bringing prev to current
+			prev = current;
+			//updating current to reverse the next node in sequence
+			current = next;
+		}
+		head = prev; //post reversal, the head will be at the other end, setting head to current at the end of loop will make it null, hence assigning only prev value to it
+	}
+	
 	//Remove and return the node at the head of the list
 	public synchronized ListNode removeFromBegin() {
 		ListNode node = head;
