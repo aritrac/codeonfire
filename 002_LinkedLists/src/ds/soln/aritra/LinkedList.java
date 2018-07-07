@@ -18,6 +18,9 @@ import ds.soln.aritra.utilities.ListNode;
  * 10)Return the current length of the list
  * 11)Find the position of the first value that is equal to a given value
  * 12)Remove everything from the list
+ * 13)Reversing a list iteratively
+ * 14)Reversing a list recursively
+ * 15)Insertion into a sorted linked list
  */
 public class LinkedList {
 	//This is the only field of the class. It holds the head of the list
