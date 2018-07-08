@@ -268,4 +268,17 @@ public class LinkedList {
 		head = null;
 		length = 0;
 	}
+	
+	//Print list from the node provided
+	public static void printList(ListNode head) {
+		System.out.print("[");
+		while(head != null) {
+			if(head.getNext() != null)
+				System.out.print(head.getData() + ",");
+			else
+				System.out.print(head.getData());
+			head = head.getNext();
+		}
+		System.out.println("]");
+	}
 }
