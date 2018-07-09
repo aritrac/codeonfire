@@ -5,7 +5,7 @@ import ds.soln.aritra.utilities.ListNode;
 /*
  * Author: Aritra Chatterjee
  * Date: 9th July 2018
- * Description: Suppose you are given an odd length list such as
+ * Description: Suppose you are given an odd length list such as (RECURSIVE)
  * 1 -> 2 -> 3 -> 4 -> 5 
  * Output of the code should be
  * 2 -> 1 -> 4 -> 3 -> 5
