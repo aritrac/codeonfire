@@ -5,7 +5,7 @@ import ds.soln.aritra.utilities.ListNode;
 /*
  * Author: Aritra Chatterjee
  * Date: 8th July 2018
- * Description: We will be given two sorted linked lists, we have to merge them into a third list in sorted order
+ * Description: We will be given two sorted linked lists, we have to merge them into a third list in sorted order recursively
  */
 
 public class Prob002_022_MergeTwoSortedLinkedListsRecursive {
